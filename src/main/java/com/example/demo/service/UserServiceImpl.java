@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+
 import java.util.List;
 import java.util.Optional;
+
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -66,5 +69,11 @@ public class UserServiceImpl implements UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-
+    public void updateUserWithoutPassword(User user) {
+        User existingUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.setPassword(existingUser.getPassword());
+        user.setRole(existingUser.getRole());
+        userRepository.save(user);
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.service.UserService;
@@ -13,8 +14,8 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-private final UserService userService;
-private final RoleRepository roleRepository;
+    private final UserService userService;
+    private final RoleRepository roleRepository;
 
     public UserController(UserService userService, RoleRepository roleRepository) {
         this.userService = userService;
@@ -32,6 +33,7 @@ private final RoleRepository roleRepository;
             return "redirect:/logout";
         }
     }
+
     @GetMapping("/update-profile")
     public String updateUserForm(Principal principal, Model model) {
         String username = principal.getName();

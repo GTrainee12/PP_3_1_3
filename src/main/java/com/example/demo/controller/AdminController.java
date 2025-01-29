@@ -9,9 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.security.Principal;
 import java.util.List;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -66,7 +66,12 @@ public class AdminController {
 
     @PostMapping("/user-update")
     public String updateUser(@ModelAttribute("user") User user, @RequestParam String password, Model model) {
-        userService.updateUser(user, password);
+        // Проверяем, если пароль не был изменен, то не обновляем его
+        if (password != null && !password.isEmpty()) {
+            userService.updateUser(user, password);
+        } else {
+            userService.updateUserWithoutPassword(user);
+        }
         return "redirect:/admin/users";
     }
 
